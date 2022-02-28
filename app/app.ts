@@ -24,3 +24,16 @@ app.use('/', router);
 // サーバ起動
 app.listen(port);
 console.log('listen on port' + port);
+
+// mongodb
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+const options = {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+}
+mongoose.connect('mongodb://localhost:27017/app1db', options);
+mongoose.connection.on('error', function (err: any) {
+    console.error('MongoDB connection error: ' + err);
+    process.exit(-1);
+})
