@@ -2,6 +2,8 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { TestService } from '../services/TestService';
+import { TestMongoService } from "../services/TestMongoService";
+
 const app = express();
 app.use(helmet());
 app.use(cors());
@@ -34,3 +36,13 @@ app.use((req, res) => {
 
 // routerをモジュールとして扱う準備
 module.exports = router;
+
+router.get('/test/mongo/:user', (req, res, next) => {
+    const { user } = req.params;
+    const service = new TestMongoService();
+
+    service
+        .run(user)
+        .then(result => res.status(200).send(result))
+        .catch(next);
+});
